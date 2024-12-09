@@ -1,0 +1,17 @@
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YARA01.exe
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YARA01.deps.json
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YARA01.runtimeconfig.json
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YARA01.dll
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YARA01.pdb
+D:\Programmes\Dev\C++\YARA01\bin\Debug\net8.0\YaraSharp.dll
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.csproj.AssemblyReference.cache
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.AssemblyInfoInputs.cache
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.AssemblyInfo.cs
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.csproj.CoreCompileInputs.cache
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.csproj.Up2Date
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.dll
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\refint\YARA01.dll
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.pdb
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.genruntimeconfig.cache
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\ref\YARA01.dll
