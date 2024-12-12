@@ -1,20 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="YaraSharp" Version="1.3.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="YaraSharp" Version="1.3.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="YaraSharp">
-      <HintPath>bin\Debug\net8.0\YaraSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="YaraSharp">
+			<HintPath>bin\Debug\net8.0\YaraSharp.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

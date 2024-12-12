@@ -15,3 +15,4 @@ D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\refint\YARA01.dll
 D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.pdb
 D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.genruntimeconfig.cache
 D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\ref\YARA01.dll
+D:\Programmes\Dev\C++\YARA01\obj\Debug\net8.0\YARA01.sourcelink.json
