@@ -1,17 +1,17 @@
-Projet YARA Scanner avec Base de Données SQLite
-Description
+# Projet YARA Scanner avec Base de Données SQLite
+Description: 
 
 Ce projet est une application Windows Forms permettant d'analyser des fichiers à l'aide de l'outil YARA. Les résultats des analyses sont enregistrés dans une base de données SQLite pour une gestion et un suivi ultérieurs.
 
 Les principales fonctionnalités incluent :
 
-Analyse de fichiers dans un répertoire donné en utilisant plusieurs règles YARA.
-Gestion des résultats dans une base de données SQLite.
-Affichage des résultats dans l'interface utilisateur (avec option pour afficher les fichiers suspects ou ayant des erreurs).
-Génération d'un identifiant unique pour chaque session de scan.
+- Analyse de fichiers dans un répertoire donné en utilisant plusieurs règles YARA.
+- Gestion des résultats dans une base de données SQLite.
+- Affichage des résultats dans l'interface utilisateur (avec option pour afficher les fichiers suspects ou ayant des erreurs).
+- Génération d'un identifiant unique pour chaque session de scan.
 
-Structure du Projet
-1. DatabaseHelper
+## Structure du Projet
+### 1. DatabaseHelper
 
 Cette classe gère la communication avec la base de données SQLite.
 
@@ -30,7 +30,7 @@ GetResultsByScanId(string scanId) : Récupère les résultats pour un scan donn�
 GetTotalFilesByScanId(string scanId) : Retourne le nombre de fichiers analysés dans un scan.
 GetSuspiciousFilesByScanId(string scanId) : Retourne le nombre de fichiers suspects dans un scan.
 
-2. YaraScanner
+### 2. YaraScanner
 
 Cette classe encapsule l'exécution de l'outil YARA pour analyser des fichiers.
 
@@ -44,7 +44,7 @@ Méthodes clés :
 
 ScanFile(string scanId, string rulesArguments, string targetFile) : Effectue l'analyse d'un fichier donné avec des règles YARA et enregistre les résultats dans la base de données.
 
-3. Program.cs
+### 3. Program.cs
 
 Ce fichier contient le point d'entrée principal du projet. Il initialise les composants, crée les instances des classes principales et lance les analyses.
 
