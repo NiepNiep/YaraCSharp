@@ -1249,9 +1249,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OPSIE\\YaraCSharp\\YARA01.csproj",
+      "projectUniqueName": "D:\\OPSIE\\yaracsharp\\YARA01.csproj",
       "projectName": "YARA01",
-      "projectPath": "D:\\OPSIE\\YaraCSharp\\YARA01.csproj",
+      "projectPath": "D:\\OPSIE\\yaracsharp\\YARA01.csproj",
       "packagesPath": "C:\\Users\\Romain\\.nuget\\packages\\",
       "outputPath": "D:\\OPSIE\\YaraCSharp\\obj\\",
       "projectStyle": "PackageReference",

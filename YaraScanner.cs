@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Data.SQLite;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Diagnostics;
 
-namespace MYARAcons
+namespace YARA01
 {
     public class YaraScanner
     {

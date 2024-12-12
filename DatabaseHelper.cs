@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SQLite;
 
-namespace MYARAcons
+namespace YARA01
 {
     public class DatabaseHelper
     {
@@ -79,6 +79,9 @@ namespace MYARAcons
                 connection.Close();
             }
         }
+
+
+        //===========% CMD SQL %==========/
 
         // Méthode pour récupérer tous les résultats des scans, par exemple pour générer des rapports.
         public void GetScanResults()

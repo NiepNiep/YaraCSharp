@@ -1,8 +1,4 @@
-﻿using MYARAcons;
-using System;
-using System.Data;
-using System.Diagnostics;
-using System.Windows.Forms;
+﻿using YARA01;
 
 public partial class MainForm : Form
 {
@@ -29,7 +25,7 @@ public partial class MainForm : Form
         string rulesFolder = @"rules";
         string targetDirectory = txtTargetFile.Text;
         string dbFilePath = "results.db"; // Chemin de la base de données SQLite
-        string scanId = Guid.NewGuid().ToString();
+        string scanId = Guid.NewGuid().ToString(); // scan id avec num aléatoire GUID
 
         // création base de donnée
         var dbHelper = new DatabaseHelper(dbFilePath);
