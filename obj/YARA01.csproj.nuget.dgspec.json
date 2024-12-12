@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programmes\\Dev\\C++\\YARA01\\YARA01.csproj": {}
+    "D:\\yaracsharp\\YARA01.csproj": {}
   },
   "projects": {
-    "D:\\Programmes\\Dev\\C++\\YARA01\\YARA01.csproj": {
+    "D:\\yaracsharp\\YARA01.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programmes\\Dev\\C++\\YARA01\\YARA01.csproj",
+        "projectUniqueName": "D:\\yaracsharp\\YARA01.csproj",
         "projectName": "YARA01",
-        "projectPath": "D:\\Programmes\\Dev\\C++\\YARA01\\YARA01.csproj",
-        "packagesPath": "C:\\Users\\Niep\\.nuget\\packages\\",
-        "outputPath": "D:\\Programmes\\Dev\\C++\\YARA01\\obj\\",
+        "projectPath": "D:\\yaracsharp\\YARA01.csproj",
+        "packagesPath": "C:\\Users\\Romain\\.nuget\\packages\\",
+        "outputPath": "D:\\yaracsharp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Programmes\\Dev\\VisualStudioCommunity\\shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Niep\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Romain\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -43,16 +43,15 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
-            "YaraSharp": {
+            "System.Data.SQLite": {
               "target": "Package",
-              "version": "[1.3.1, )"
+              "version": "[1.0.119, )"
             }
           },
           "imports": [
@@ -74,7 +73,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

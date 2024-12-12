@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
+﻿using YARA01;
 
 public partial class MainForm : Form
 {
@@ -9,150 +7,176 @@ public partial class MainForm : Form
         InitializeComponent();
     }
 
-    private void btnSelectRules_Click(object sender, EventArgs e)
+    private void btnSelectTarget_Click(object sender, EventArgs e)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        openFileDialog.Title = "Sélectionnez le fichier de règles YARA";
-        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+        folderBrowserDialog.Description = "Sélectionnez le dossier à analyser";
+        if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
         {
-            txtRulesFile.Text = openFileDialog.FileName;
+            txtTargetFile.Text = folderBrowserDialog.SelectedPath;
         }
     }
 
-    private void btnSelectTarget_Click(object sender, EventArgs e)
-    {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        openFileDialog.Title = "Sélectionnez le fichier à analyser";
-        if (openFileDialog.ShowDialog() == DialogResult.OK)
-        {
-            txtTargetFile.Text = openFileDialog.FileName;
-        }
-    }
+
 
     private void btnAnalyze_Click(object sender, EventArgs e)
     {
         string yaraExe = "yara64.exe";
-        string rulesFile = txtRulesFile.Text;
-        string targetFile = txtTargetFile.Text;
+        string rulesFolder = @"rules";
+        string targetDirectory = txtTargetFile.Text;
+        string dbFilePath = "results.db"; // Chemin de la base de données SQLite
+        string scanId = Guid.NewGuid().ToString(); // scan id avec num aléatoire GUID
 
-        if (!System.IO.File.Exists(yaraExe) || !System.IO.File.Exists(rulesFile) || !System.IO.File.Exists(targetFile))
+        // création base de donnée
+        var dbHelper = new DatabaseHelper(dbFilePath);
+        //Initialise le chemin de l'exécutable YARA
+        var yaraScanner = new YaraScanner(yaraExe, dbHelper);
+
+
+        // Charger et analyser les fichiers...
+
+        string[] targetFiles = Directory.GetFiles(targetDirectory);
+        string rulesArguments = string.Join(" ", Directory.GetFiles(rulesFolder, "*.yar"));
+
+        Console.WriteLine($"Début du scan avec ScanId: {scanId}");
+        foreach (var targetFile in targetFiles)
         {
-            MessageBox.Show("Un ou plusieurs fichiers sont introuvables.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return;
-        }
+            yaraScanner.ScanFile(scanId, rulesArguments, targetFile);
 
-        string arguments = $"{rulesFile} {targetFile}";
-        try
-        {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = yaraExe,
-                    Arguments = arguments,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                }
-            };
-
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            string errors = process.StandardError.ReadToEnd();
-            process.WaitForExit();
-
-            if (!string.IsNullOrEmpty(output))
-                MessageBox.Show(output, "Résultat", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (!string.IsNullOrEmpty(errors))
-                MessageBox.Show(errors, "Erreurs", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
-                MessageBox.Show("Aucun résultat trouvé.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        Console.WriteLine($"Scan terminé avec ScanId: {scanId}");
+
+        int totalFiles = dbHelper.GetTotalFilesByScanId(scanId);
+        int suspiciousFiles = dbHelper.GetSuspiciousFilesByScanId(scanId);
+
+        lblTotalFiles.Text = totalFiles.ToString();
+        lblSuspiciousFiles.Text = suspiciousFiles.ToString();
+
+        // Récupérer et afficher les résultats
+        string scanResults = dbHelper.GetResultsAsStringByScanId(scanId);
+        txtResults.Text = scanResults; // txtResults est la TextBox multi-lignes
+
     }
+
+
 
     private void InitializeComponent()
     {
-        this.btnSelectRules = new System.Windows.Forms.Button();
-        this.btnSelectTarget = new System.Windows.Forms.Button();
-        this.txtRulesFile = new System.Windows.Forms.TextBox();
-        this.txtTargetFile = new System.Windows.Forms.TextBox();
-        this.btnAnalyze = new System.Windows.Forms.Button();
-        this.SuspendLayout();
-
-        // 
-        // btnSelectRules
-        // 
-        this.btnSelectRules.Location = new System.Drawing.Point(12, 12);
-        this.btnSelectRules.Name = "btnSelectRules";
-        this.btnSelectRules.Size = new System.Drawing.Size(200, 23);
-        this.btnSelectRules.TabIndex = 0;
-        this.btnSelectRules.Text = "Sélectionner le fichier de règles YARA";
-        this.btnSelectRules.UseVisualStyleBackColor = true;
-        this.btnSelectRules.Click += new System.EventHandler(this.btnSelectRules_Click);
-
+        btnSelectTarget = new Button();
+        txtTargetFile = new TextBox();
+        btnAnalyze = new Button();
+        txtResults = new TextBox();
+        label1 = new Label();
+        lblTotalFiles = new Label();
+        label3 = new Label();
+        lblSuspiciousFiles = new Label();
+        SuspendLayout();
         // 
         // btnSelectTarget
         // 
-        this.btnSelectTarget.Location = new System.Drawing.Point(12, 41);
-        this.btnSelectTarget.Name = "btnSelectTarget";
-        this.btnSelectTarget.Size = new System.Drawing.Size(200, 23);
-        this.btnSelectTarget.TabIndex = 1;
-        this.btnSelectTarget.Text = "Sélectionner le fichier à analyser";
-        this.btnSelectTarget.UseVisualStyleBackColor = true;
-        this.btnSelectTarget.Click += new System.EventHandler(this.btnSelectTarget_Click);
-
-        // 
-        // txtRulesFile
-        // 
-        this.txtRulesFile.Location = new System.Drawing.Point(218, 14);
-        this.txtRulesFile.Name = "txtRulesFile";
-        this.txtRulesFile.Size = new System.Drawing.Size(300, 20);
-        this.txtRulesFile.TabIndex = 2;
-
+        btnSelectTarget.Location = new Point(217, 63);
+        btnSelectTarget.Name = "btnSelectTarget";
+        btnSelectTarget.Size = new Size(200, 23);
+        btnSelectTarget.TabIndex = 1;
+        btnSelectTarget.Text = "Sélectionner le dossier à analyser";
+        btnSelectTarget.UseVisualStyleBackColor = true;
+        btnSelectTarget.Click += btnSelectTarget_Click;
         // 
         // txtTargetFile
         // 
-        this.txtTargetFile.Location = new System.Drawing.Point(218, 43);
-        this.txtTargetFile.Name = "txtTargetFile";
-        this.txtTargetFile.Size = new System.Drawing.Size(300, 20);
-        this.txtTargetFile.TabIndex = 3;
-
+        txtTargetFile.Location = new Point(423, 64);
+        txtTargetFile.Name = "txtTargetFile";
+        txtTargetFile.Size = new Size(605, 23);
+        txtTargetFile.TabIndex = 3;
         // 
         // btnAnalyze
         // 
-        this.btnAnalyze.Location = new System.Drawing.Point(12, 70);
-        this.btnAnalyze.Name = "btnAnalyze";
-        this.btnAnalyze.Size = new System.Drawing.Size(506, 23);
-        this.btnAnalyze.TabIndex = 4;
-        this.btnAnalyze.Text = "Analyser";
-        this.btnAnalyze.UseVisualStyleBackColor = true;
-        this.btnAnalyze.Click += new System.EventHandler(this.btnAnalyze_Click);
-
+        btnAnalyze.Location = new Point(217, 117);
+        btnAnalyze.Name = "btnAnalyze";
+        btnAnalyze.Size = new Size(200, 42);
+        btnAnalyze.TabIndex = 4;
+        btnAnalyze.Text = "Analyser";
+        btnAnalyze.UseVisualStyleBackColor = true;
+        btnAnalyze.Click += btnAnalyze_Click;
+        // 
+        // txtResults
+        // 
+        txtResults.ForeColor = SystemColors.WindowText;
+        txtResults.Location = new Point(217, 185);
+        txtResults.Multiline = true;
+        txtResults.Name = "txtResults";
+        txtResults.ReadOnly = true;
+        txtResults.ScrollBars = ScrollBars.Vertical;
+        txtResults.Size = new Size(811, 453);
+        txtResults.TabIndex = 5;
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Location = new Point(467, 131);
+        label1.Name = "label1";
+        label1.Size = new Size(156, 15);
+        label1.TabIndex = 6;
+        label1.Text = "Nombre de fichiers analysé :";
+        // 
+        // lblTotalFiles
+        // 
+        lblTotalFiles.AutoSize = true;
+        lblTotalFiles.Location = new Point(629, 131);
+        lblTotalFiles.Name = "lblTotalFiles";
+        lblTotalFiles.Size = new Size(13, 15);
+        lblTotalFiles.TabIndex = 7;
+        lblTotalFiles.Text = "0";
+        // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Location = new Point(793, 131);
+        label3.Name = "label3";
+        label3.Size = new Size(172, 15);
+        label3.TabIndex = 8;
+        label3.Text = "Nombre de fichiers suspicieux :";
+        // 
+        // lblSuspiciousFiles
+        // 
+        lblSuspiciousFiles.AutoSize = true;
+        lblSuspiciousFiles.Location = new Point(971, 131);
+        lblSuspiciousFiles.Name = "lblSuspiciousFiles";
+        lblSuspiciousFiles.Size = new Size(13, 15);
+        lblSuspiciousFiles.TabIndex = 9;
+        lblSuspiciousFiles.Text = "0";
         // 
         // MainForm
         // 
-        this.ClientSize = new System.Drawing.Size(530, 105);
-        this.Controls.Add(this.btnAnalyze);
-        this.Controls.Add(this.txtTargetFile);
-        this.Controls.Add(this.txtRulesFile);
-        this.Controls.Add(this.btnSelectTarget);
-        this.Controls.Add(this.btnSelectRules);
-        this.Name = "MainForm";
-        this.Text = "Analyseur YARA";
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        ClientSize = new Size(1264, 722);
+        Controls.Add(lblSuspiciousFiles);
+        Controls.Add(label3);
+        Controls.Add(lblTotalFiles);
+        Controls.Add(label1);
+        Controls.Add(txtResults);
+        Controls.Add(btnAnalyze);
+        Controls.Add(txtTargetFile);
+        Controls.Add(btnSelectTarget);
+        Name = "MainForm";
+        Text = "Analyseur YARA";
+        Load += MainForm_Load;
+        ResumeLayout(false);
+        PerformLayout();
     }
 
-    private System.Windows.Forms.Button btnSelectRules;
     private System.Windows.Forms.Button btnSelectTarget;
-    private System.Windows.Forms.TextBox txtRulesFile;
     private System.Windows.Forms.TextBox txtTargetFile;
+    private TextBox txtResults;
+    private Label label1;
+    private Label lblTotalFiles;
+    private Label label3;
+    private Label lblSuspiciousFiles;
     private System.Windows.Forms.Button btnAnalyze;
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+
+    }
 }
 
 public static class Program

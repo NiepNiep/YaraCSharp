@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YARA01")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14f456e58808ee94cbf6cb17e4392357636d16cc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a5e50835e02082ecb415b06afec258b7282d6ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("YARA01")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YARA01")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
