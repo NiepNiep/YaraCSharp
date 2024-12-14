@@ -35,7 +35,15 @@ public partial class MainForm : Form
 
         // Charger et analyser les fichiers...
 
+        if (txtTargetFile.Text == null || txtTargetFile.Text.Length == 0)
+        {
+            MessageBox.Show("Erreur : Aucun fichier trouvé dans le répertoire spécifié.", "Aucun fichier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
         string[] targetFiles = Directory.GetFiles(targetDirectory);
+        
+        
         string rulesArguments = string.Join(" ", Directory.GetFiles(rulesFolder, "*.yar"));
 
         Console.WriteLine($"Début du scan avec ScanId: {scanId}");
