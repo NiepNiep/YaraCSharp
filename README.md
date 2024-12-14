@@ -3,13 +3,6 @@ Description:
 
 Ce projet est une application Windows Forms permettant d'analyser des fichiers à l'aide de l'outil YARA. Les résultats des analyses sont enregistrés dans une base de données SQLite pour une gestion et un suivi ultérieurs.
 
-Les principales fonctionnalités incluent :
-
-- Analyse de fichiers dans un répertoire donné en utilisant plusieurs règles YARA.
-- Gestion des résultats dans une base de données SQLite.
-- Affichage des résultats dans l'interface utilisateur (avec option pour afficher les fichiers suspects ou ayant des erreurs).
-- Génération d'un identifiant unique pour chaque session de scan.
-
 ## Structure du Projet
 ### 1. DatabaseHelper
 
