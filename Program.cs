@@ -17,7 +17,7 @@ public partial class MainForm : Form
         }
     }
 
-  
+
 
     private void btnAnalyze_Click(object sender, EventArgs e)
     {
@@ -74,7 +74,7 @@ public partial class MainForm : Form
         // 
         // btnSelectTarget
         // 
-        btnSelectTarget.Location = new Point(360, 12);
+        btnSelectTarget.Location = new Point(217, 63);
         btnSelectTarget.Name = "btnSelectTarget";
         btnSelectTarget.Size = new Size(200, 23);
         btnSelectTarget.TabIndex = 1;
@@ -84,16 +84,16 @@ public partial class MainForm : Form
         // 
         // txtTargetFile
         // 
-        txtTargetFile.Location = new Point(566, 13);
+        txtTargetFile.Location = new Point(423, 64);
         txtTargetFile.Name = "txtTargetFile";
-        txtTargetFile.Size = new Size(300, 23);
+        txtTargetFile.Size = new Size(605, 23);
         txtTargetFile.TabIndex = 3;
         // 
         // btnAnalyze
         // 
-        btnAnalyze.Location = new Point(360, 70);
+        btnAnalyze.Location = new Point(217, 117);
         btnAnalyze.Name = "btnAnalyze";
-        btnAnalyze.Size = new Size(506, 23);
+        btnAnalyze.Size = new Size(200, 42);
         btnAnalyze.TabIndex = 4;
         btnAnalyze.Text = "Analyser";
         btnAnalyze.UseVisualStyleBackColor = true;
@@ -101,18 +101,19 @@ public partial class MainForm : Form
         // 
         // txtResults
         // 
-        txtResults.Location = new Point(89, 186);
+        txtResults.ForeColor = SystemColors.WindowText;
+        txtResults.Location = new Point(217, 185);
         txtResults.Multiline = true;
         txtResults.Name = "txtResults";
         txtResults.ReadOnly = true;
         txtResults.ScrollBars = ScrollBars.Vertical;
-        txtResults.Size = new Size(1082, 453);
+        txtResults.Size = new Size(811, 453);
         txtResults.TabIndex = 5;
         // 
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(94, 131);
+        label1.Location = new Point(467, 131);
         label1.Name = "label1";
         label1.Size = new Size(156, 15);
         label1.TabIndex = 6;
@@ -121,7 +122,7 @@ public partial class MainForm : Form
         // lblTotalFiles
         // 
         lblTotalFiles.AutoSize = true;
-        lblTotalFiles.Location = new Point(256, 131);
+        lblTotalFiles.Location = new Point(629, 131);
         lblTotalFiles.Name = "lblTotalFiles";
         lblTotalFiles.Size = new Size(13, 15);
         lblTotalFiles.TabIndex = 7;
@@ -130,7 +131,7 @@ public partial class MainForm : Form
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(360, 131);
+        label3.Location = new Point(793, 131);
         label3.Name = "label3";
         label3.Size = new Size(172, 15);
         label3.TabIndex = 8;
@@ -139,7 +140,7 @@ public partial class MainForm : Form
         // lblSuspiciousFiles
         // 
         lblSuspiciousFiles.AutoSize = true;
-        lblSuspiciousFiles.Location = new Point(538, 131);
+        lblSuspiciousFiles.Location = new Point(971, 131);
         lblSuspiciousFiles.Name = "lblSuspiciousFiles";
         lblSuspiciousFiles.Size = new Size(13, 15);
         lblSuspiciousFiles.TabIndex = 9;
@@ -147,7 +148,7 @@ public partial class MainForm : Form
         // 
         // MainForm
         // 
-        ClientSize = new Size(1264, 661);
+        ClientSize = new Size(1264, 722);
         Controls.Add(lblSuspiciousFiles);
         Controls.Add(label3);
         Controls.Add(lblTotalFiles);
@@ -158,6 +159,7 @@ public partial class MainForm : Form
         Controls.Add(btnSelectTarget);
         Name = "MainForm";
         Text = "Analyseur YARA";
+        Load += MainForm_Load;
         ResumeLayout(false);
         PerformLayout();
     }
@@ -170,6 +172,11 @@ public partial class MainForm : Form
     private Label label3;
     private Label lblSuspiciousFiles;
     private System.Windows.Forms.Button btnAnalyze;
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+
+    }
 }
 
 public static class Program
