@@ -47,4 +47,4 @@ Principales étapes :
 - Création d'une instance de DatabaseHelper pour gérer la base de données.  
 - Création d'une instance de YaraScanner pour exécuter les analyses.  
 - Analyse des fichiers dans le répertoire choisi.  
-- Affichage des résultats dans l'interface utilisateur (ou en console si en mode CLI).  
+- Affichage des résultats dans l'interface utilisateur.  
