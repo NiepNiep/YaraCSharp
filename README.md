@@ -21,7 +21,8 @@ Méthodes clés :
 - InsertScanResult() : Enregistre un résultat dans la table.  
 - GetResultsByScanId(string scanId) : Récupère les résultats pour un scan donné.  
 - GetTotalFilesByScanId(string scanId) : Retourne le nombre de fichiers analysés dans un scan.  
-- GetSuspiciousFilesByScanId(string scanId) : Retourne le nombre de fichiers suspects dans un scan.  
+- GetSuspiciousFilesByScanId(string scanId) : Retourne le nombre de fichiers suspects dans un scan.
+- GetSuspiciousFilesNamesByScanId(string scanId) : Retourne le nom des fichiers suspects dans un scan.
 
 ### 2. YaraScanner
 
