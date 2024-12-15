@@ -84,115 +84,15 @@ namespace YARA01
         //===========% CMD SQL %==========/
 
         // Méthode pour récupérer tous les résultats des scans, par exemple pour générer des rapports.
-        public void GetScanResults()
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string selectQuery = "SELECT * FROM ScanResults ORDER BY ScanDate DESC;"; // Récupérer les résultats par date décroissante
-                using (var command = new SQLiteCommand(selectQuery, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        Console.WriteLine("Scan Results Report:");
-                        while (reader.Read())
-                        {
-                            Console.WriteLine($"File: {reader["FileName"]}, Path: {reader["FilePath"]}, Date: {reader["ScanDate"]}, Result: {reader["ScanResult"]}, Error: {reader["Error"]}");
-                        }
-                    }
-                }
-
-                connection.Close();
-            }
-        }
-
-        public void ExportResultsToFile(string filePath)
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string selectQuery = "SELECT * FROM ScanResults ORDER BY ScanDate DESC;";
-                using (var command = new SQLiteCommand(selectQuery, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        using (var writer = new StreamWriter(filePath))
-                        {
-                            writer.WriteLine("Scan Results Report:");
-                            while (reader.Read())
-                            {
-                                writer.WriteLine($"File: {reader["FileName"]}, Path: {reader["FilePath"]}, Date: {reader["ScanDate"]}, Result: {reader["ScanResult"]}, Error: {reader["Error"]}");
-                            }
-                        }
-                    }
-                }
-
-                connection.Close();
-            }
-        }
-
-        public void GetResultsByScanId(string scanId)
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                // Requête avec conditions supplémentaires pour ScanResult et Error non vides
-                string query = @"
-                     SELECT * FROM ScanResults
-                     WHERE ScanId = @ScanId
-                     AND ScanResult IS NOT NULL
-                     AND TRIM(ScanResult) != ''
-                     ORDER BY ScanDate;";
-
-                using (var command = new SQLiteCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@ScanId", scanId);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            // Mise en rouge des lignes correspondant aux critères
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Id: {reader["Id"]},  Date: {reader["ScanDate"]}, FileName: {reader["FileName"]}, Result: {reader["ScanResult"]}");
-                            Console.ResetColor(); // Réinitialiser la couleur après l'affichage
-                        }
-                    }
-                }
-
-                connection.Close();
-            }
-        }
-        public DataTable GetResultsAsDataTable(string scanId)
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                string query = "SELECT * FROM ScanResults WHERE ScanId = @ScanId ORDER BY ScanDate;";
-                using (var command = new SQLiteCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@ScanId", scanId);
-
-                    using (var adapter = new SQLiteDataAdapter(command))
-                    {
-                        DataTable resultsTable = new DataTable();
-                        adapter.Fill(resultsTable);
-                        return resultsTable;
-                    }
-                }
-            }
-        }
-
+        
+       
         public string GetResultsAsStringByScanId(string scanId)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new SQLiteConnection(_connectionString)) // Crée une connexion à la base de données SQLite
             {
-                connection.Open();
+                connection.Open(); // Ouvre la connexion à la base de données
 
+                // Requête SQL pour sélectionner tous les résultats d'un scan donné, triés par date
                 string query = "SELECT * FROM ScanResults WHERE ScanId = @ScanId ORDER BY ScanDate;";
                 using (var command = new SQLiteCommand(query, connection))
                 {
@@ -248,7 +148,31 @@ namespace YARA01
             }
         }
 
+        public List<string> GetSuspiciousFileNamesByScanId(string scanId)
+        {
+            List<string> suspiciousFileNames = new List<string>();
 
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT FileName FROM ScanResults WHERE ScanId = @ScanId AND ScanResult IS NOT NULL AND TRIM(ScanResult) != '';";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ScanId", scanId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            suspiciousFileNames.Add(reader["FileName"].ToString());
+                        }
+                    }
+                }
+            }
+
+            return suspiciousFileNames;
+        }
 
 
     }

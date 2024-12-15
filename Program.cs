@@ -53,14 +53,32 @@ public partial class MainForm : Form
             yaraScanner.ScanFile(scanId, rulesArguments, targetFile);
         }
 
+        // totalfiles = le nombre total des fichiers scannés 
         int totalFiles = dbHelper.GetTotalFilesByScanId(scanId);
+        // suspiciousFiles = le nombre total des fichiers suspicieux scannés 
         int suspiciousFiles = dbHelper.GetSuspiciousFilesByScanId(scanId);
+
 
         lblTotalFiles.Text = totalFiles.ToString();
         lblSuspiciousFiles.Text = suspiciousFiles.ToString();
-
+        
+        // les resultats du scan 
         string scanResults = dbHelper.GetResultsAsStringByScanId(scanId);
         txtResults.Text = scanResults;
+
+        // Message box si fichiers suspects
+
+        List<string> suspiciousFileNames = dbHelper.GetSuspiciousFileNamesByScanId(scanId);
+        if (suspiciousFileNames.Count > 0)
+        {
+            string fileList = string.Join(Environment.NewLine, suspiciousFileNames);
+            MessageBox.Show($"Il y a {suspiciousFiles} fichier(s) suspect(s) :\n{fileList}", "Scan Terminé", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        else
+        {
+            MessageBox.Show("Aucun fichier suspect trouvé.", "Scan Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
     }
 
     private void InitializeComponent()
