@@ -1,4 +1,8 @@
-﻿using YARA01;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using YARA01;
 
 public partial class MainForm : Form
 {
@@ -9,50 +13,45 @@ public partial class MainForm : Form
 
     private void btnSelectTarget_Click(object sender, EventArgs e)
     {
-        FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-        folderBrowserDialog.Description = "Sélectionnez le dossier à analyser";
+        FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog
+        {
+            Description = "Sélectionnez le dossier à analyser"
+        };
         if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
         {
             txtTargetFile.Text = folderBrowserDialog.SelectedPath;
         }
     }
 
-
-
     private void btnAnalyze_Click(object sender, EventArgs e)
     {
         string yaraExe = "yara64.exe";
         string rulesFolder = @"rules";
         string targetDirectory = txtTargetFile.Text;
-        string dbFilePath = "results.db"; // Chemin de la base de données SQLite
-        string scanId = Guid.NewGuid().ToString(); // scan id avec num aléatoire GUID
+        string dbFilePath = "results.db";
+        string scanId = Guid.NewGuid().ToString();
 
-        // création base de donnée
         var dbHelper = new DatabaseHelper(dbFilePath);
-        //Initialise le chemin de l'exécutable YARA
         var yaraScanner = new YaraScanner(yaraExe, dbHelper);
 
-
-        // Charger et analyser les fichiers...
-
-        if (txtTargetFile.Text == null || txtTargetFile.Text.Length == 0)
+        if (string.IsNullOrWhiteSpace(txtTargetFile.Text))
         {
-            MessageBox.Show("Erreur : Aucun fichier trouvé dans le répertoire spécifié.", "Aucun fichier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(
+                "Erreur : Aucun fichier trouvé dans le répertoire spécifié.",
+                "Aucun fichier",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            );
             return;
         }
 
         string[] targetFiles = Directory.GetFiles(targetDirectory);
-        
-        
         string rulesArguments = string.Join(" ", Directory.GetFiles(rulesFolder, "*.yar"));
 
-        Console.WriteLine($"Début du scan avec ScanId: {scanId}");
         foreach (var targetFile in targetFiles)
         {
             yaraScanner.ScanFile(scanId, rulesArguments, targetFile);
-
         }
-        Console.WriteLine($"Scan terminé avec ScanId: {scanId}");
 
         int totalFiles = dbHelper.GetTotalFilesByScanId(scanId);
         int suspiciousFiles = dbHelper.GetSuspiciousFilesByScanId(scanId);
@@ -60,13 +59,9 @@ public partial class MainForm : Form
         lblTotalFiles.Text = totalFiles.ToString();
         lblSuspiciousFiles.Text = suspiciousFiles.ToString();
 
-        // Récupérer et afficher les résultats
         string scanResults = dbHelper.GetResultsAsStringByScanId(scanId);
-        txtResults.Text = scanResults; // txtResults est la TextBox multi-lignes
-
+        txtResults.Text = scanResults;
     }
-
-
 
     private void InitializeComponent()
     {
@@ -79,118 +74,116 @@ public partial class MainForm : Form
         label3 = new Label();
         lblSuspiciousFiles = new Label();
         SuspendLayout();
-        // 
+
+        // Couleurs simples
+        var backgroundColor = Color.WhiteSmoke;
+        var buttonColor = Color.LightGray;
+        var labelColor = Color.Black;
+        var resultBackgroundColor = Color.White;
+        var resultTextColor = Color.Black;
+
+        BackColor = backgroundColor;
+
         // btnSelectTarget
-        // 
-        btnSelectTarget.Location = new Point(217, 63);
+        btnSelectTarget.BackColor = buttonColor;
+        btnSelectTarget.ForeColor = labelColor;
+        btnSelectTarget.FlatStyle = FlatStyle.Flat;
+        btnSelectTarget.Location = new Point(50, 30);
         btnSelectTarget.Name = "btnSelectTarget";
-        btnSelectTarget.Size = new Size(200, 23);
+        btnSelectTarget.Size = new Size(200, 35);
         btnSelectTarget.TabIndex = 1;
-        btnSelectTarget.Text = "Sélectionner le dossier à analyser";
+        btnSelectTarget.Text = "Sélectionner un dossier";
         btnSelectTarget.UseVisualStyleBackColor = true;
         btnSelectTarget.Click += btnSelectTarget_Click;
-        // 
+
         // txtTargetFile
-        // 
-        txtTargetFile.Location = new Point(423, 64);
+        txtTargetFile.Location = new Point(270, 35);
         txtTargetFile.Name = "txtTargetFile";
-        txtTargetFile.Size = new Size(605, 23);
-        txtTargetFile.TabIndex = 3;
-        // 
+        txtTargetFile.Size = new Size(500, 23);
+        txtTargetFile.TabIndex = 2;
+        txtTargetFile.BackColor = resultBackgroundColor;
+        txtTargetFile.ForeColor = resultTextColor;
+
         // btnAnalyze
-        // 
-        btnAnalyze.Location = new Point(217, 117);
+        btnAnalyze.BackColor = buttonColor;
+        btnAnalyze.FlatStyle = FlatStyle.Flat;
+        btnAnalyze.ForeColor = labelColor;
+        btnAnalyze.Location = new Point(50, 80);
         btnAnalyze.Name = "btnAnalyze";
-        btnAnalyze.Size = new Size(200, 42);
-        btnAnalyze.TabIndex = 4;
-        btnAnalyze.Text = "Analyser";
+        btnAnalyze.Size = new Size(200, 40);
+        btnAnalyze.TabIndex = 3;
+        btnAnalyze.Text = "Lancer l'analyse";
         btnAnalyze.UseVisualStyleBackColor = true;
         btnAnalyze.Click += btnAnalyze_Click;
-        // 
+
         // txtResults
-        // 
-        txtResults.ForeColor = SystemColors.WindowText;
-        txtResults.Location = new Point(217, 185);
+        txtResults.Location = new Point(50, 140);
         txtResults.Multiline = true;
+        txtResults.ScrollBars = ScrollBars.Vertical;
         txtResults.Name = "txtResults";
         txtResults.ReadOnly = true;
-        txtResults.ScrollBars = ScrollBars.Vertical;
-        txtResults.Size = new Size(811, 453);
-        txtResults.TabIndex = 5;
-        // 
+        txtResults.Size = new Size(720, 300);
+        txtResults.BackColor = resultBackgroundColor;
+        txtResults.ForeColor = resultTextColor;
+
         // label1
-        // 
         label1.AutoSize = true;
-        label1.Location = new Point(467, 131);
+        label1.Location = new Point(50, 460);
+        label1.ForeColor = labelColor;
+        label1.Text = "Fichiers analysés :";
+        label1.Font = new Font(label1.Font.FontFamily, 12, FontStyle.Bold);
         label1.Name = "label1";
-        label1.Size = new Size(156, 15);
-        label1.TabIndex = 6;
-        label1.Text = "Nombre de fichiers analysé :";
-        // 
+
         // lblTotalFiles
-        // 
         lblTotalFiles.AutoSize = true;
-        lblTotalFiles.Location = new Point(629, 131);
-        lblTotalFiles.Name = "lblTotalFiles";
-        lblTotalFiles.Size = new Size(13, 15);
-        lblTotalFiles.TabIndex = 7;
+        lblTotalFiles.Location = new Point(200, 460);
+        lblTotalFiles.ForeColor = labelColor;
         lblTotalFiles.Text = "0";
-        // 
+        lblTotalFiles.Font = new Font(lblTotalFiles.Font.FontFamily, 14, FontStyle.Bold);
+        lblTotalFiles.Name = "lblTotalFiles";
+
         // label3
-        // 
         label3.AutoSize = true;
-        label3.Location = new Point(793, 131);
+        label3.Location = new Point(50, 500);
+        label3.ForeColor = labelColor;
+        label3.Text = "Fichiers suspicieux :";
+        label3.Font = new Font(label3.Font.FontFamily, 12, FontStyle.Bold);
         label3.Name = "label3";
-        label3.Size = new Size(172, 15);
-        label3.TabIndex = 8;
-        label3.Text = "Nombre de fichiers suspicieux :";
-        // 
+
         // lblSuspiciousFiles
-        // 
         lblSuspiciousFiles.AutoSize = true;
-        lblSuspiciousFiles.Location = new Point(971, 131);
-        lblSuspiciousFiles.Name = "lblSuspiciousFiles";
-        lblSuspiciousFiles.Size = new Size(13, 15);
-        lblSuspiciousFiles.TabIndex = 9;
+        lblSuspiciousFiles.Location = new Point(220, 500);
+        lblSuspiciousFiles.ForeColor = labelColor;
         lblSuspiciousFiles.Text = "0";
-        // 
+        lblSuspiciousFiles.Font = new Font(lblSuspiciousFiles.Font.FontFamily, 14, FontStyle.Bold);
+        lblSuspiciousFiles.Name = "lblSuspiciousFiles";
+
         // MainForm
-        // 
-        ClientSize = new Size(1264, 722);
-        Controls.Add(lblSuspiciousFiles);
-        Controls.Add(label3);
-        Controls.Add(lblTotalFiles);
-        Controls.Add(label1);
-        Controls.Add(txtResults);
-        Controls.Add(btnAnalyze);
-        Controls.Add(txtTargetFile);
+        ClientSize = new Size(850, 600);
         Controls.Add(btnSelectTarget);
-        Name = "MainForm";
+        Controls.Add(txtTargetFile);
+        Controls.Add(btnAnalyze);
+        Controls.Add(txtResults);
+        Controls.Add(label1);
+        Controls.Add(lblTotalFiles);
+        Controls.Add(label3);
+        Controls.Add(lblSuspiciousFiles);
         Text = "Analyseur YARA";
-        Load += MainForm_Load;
         ResumeLayout(false);
         PerformLayout();
     }
 
-    private System.Windows.Forms.Button btnSelectTarget;
-    private System.Windows.Forms.TextBox txtTargetFile;
+    private Button btnSelectTarget;
+    private TextBox txtTargetFile;
+    private Button btnAnalyze;
     private TextBox txtResults;
     private Label label1;
     private Label lblTotalFiles;
     private Label label3;
     private Label lblSuspiciousFiles;
-    private System.Windows.Forms.Button btnAnalyze;
 
-    private void MainForm_Load(object sender, EventArgs e)
-    {
-
-    }
-}
-
-public static class Program
-{
     [STAThread]
-    static void Main()
+    public static void Main()
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);

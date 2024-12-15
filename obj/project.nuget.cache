@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nw9HcUIbkwQ=",
+  "dgSpecHash": "2kGi4MYE5QA=",
   "success": true,
-  "projectFilePath": "D:\\yaracsharp\\YARA01.csproj",
+  "projectFilePath": "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\YARA01.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Romain\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Romain\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

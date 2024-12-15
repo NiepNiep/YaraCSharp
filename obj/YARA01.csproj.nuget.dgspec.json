@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\yaracsharp\\YARA01.csproj": {}
+    "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\YARA01.csproj": {}
   },
   "projects": {
-    "D:\\yaracsharp\\YARA01.csproj": {
+    "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\YARA01.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\yaracsharp\\YARA01.csproj",
+        "projectUniqueName": "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\YARA01.csproj",
         "projectName": "YARA01",
-        "projectPath": "D:\\yaracsharp\\YARA01.csproj",
+        "projectPath": "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\YARA01.csproj",
         "packagesPath": "C:\\Users\\Romain\\.nuget\\packages\\",
-        "outputPath": "D:\\yaracsharp\\obj\\",
+        "outputPath": "C:\\Users\\Romain\\source\\repos\\NiepNiep\\YaraCSharp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
